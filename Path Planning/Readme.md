@@ -1,6 +1,9 @@
-# Path Planning using A star Algorithm 
+# Path Planning using PathGAN - A star Algorithm 
 
-**One of the major milestones I have achieved in this repository is extension of Astar algorithm for dynamic path planning scenario and its visualization**
+**One of the major milestones I have achieved in this repository is extension of Astar algorithm for dynamic path planning scenario and its visualization.**
+
+The current version runs in diagonally aswell, assuming that the cost of moving diagonally is 
+**cost times sqrt(2)** ( in accordance to the pythagoras theorem). I have used the **Eucledian distance for the heuristic.**
 
 This project implements Astar algorithm for a GLobal search as well as dynamic search case wherein a robot maps and finds the optimal path simultaneously. 
 
@@ -20,7 +23,7 @@ The implementation of Dynamic Astar is an extention ( and a little bit change in
 
 Pygame is a python library for creating simple GUI for developing games. I have utilized the platform over here to visualize the real time path planning of the robot in both the cases.
 
-The Pygame engine has to calibrated according to your Screen size using the following line:
+The Pygame engine has to calibrated according to your Screen size using the following line (in draw.py):
 ```python
 	WIDTH = 600    # Width of the Pygame Window.
 ```
@@ -34,11 +37,4 @@ The Pygame engine has to calibrated according to your Screen size using the foll
 	2. Install all the requirements ( assuming you have python installed), by running the following script:
 	```
 	```
-	3. 
-
----
-
-## To-Do
-
-	* Add the movement in diagonal direction as well
-	* Add PATHGAN algorithm in this environment.
+	3.  

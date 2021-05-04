@@ -14,11 +14,10 @@ def get_clicked_pos(pos, rows, width):
 
 	return row, col
 
-def man(win, width):
-	# ROWS = 50			# Can be changed by the user in case not using the image.
-	# grid = make_grid(ROWS, width, img)
-
-	grid = make_grid(ROWS, width, img)
+def main(win, width):
+	
+	ROWS = 50			# Can be changed by the user in case not using the image.
+	grid = make_grid(ROWS, width)
 	start = None
 	end = None
 
@@ -43,7 +42,6 @@ def man(win, width):
 					end = spot
 					end.make_end()
 
-				# Comment the following elif conditions for not letting users add additional Obstacles.
 				elif spot != end and spot != start:
 					spot.make_barrier()
 
@@ -58,14 +56,13 @@ def man(win, width):
 					end = None
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_t:
-					pass
-
+			
 				if event.key == pygame.K_SPACE and start and end:
 					for row in grid:
 						for spot in row:
 							spot.update_neighbors(grid)
 
+					# This is the step where we actually apply the algorithm.
 					algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
 
 				if event.key == pygame.K_r:
@@ -75,7 +72,4 @@ def man(win, width):
 
 	pygame.quit()
 
-## Defining the Main menu that would be displayed.
-input("Are you sure that you want to move forward with this?")
-print("\n\n Pixelizing the image now. Press 't' to toggle between the robot's view and spectator's view.")
-man(WIN, WIDTH)
+main(WIN, WIDTH)

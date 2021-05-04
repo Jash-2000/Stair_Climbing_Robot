@@ -1,21 +1,8 @@
-import pygame
 import math
 from queue import PriorityQueue
 import pygame
 import math
 from queue import PriorityQueue
-from img2pix import *
-import cv2
-
-path = ""
-img_path = path + "diff"
-img = cv2.imread(img_path)
-diff = input("Enter the difficulty level of the map (1-10) where 10 is most difficult\n")
-cv2.imshow("Original Map",img)
-cv2.waitKey(0)
-
-sh = np.array(np.shape(img))
-ROWS = np.max(sh, axis=0)
 
 WIDTH = 600    # Width of the Pygame Window.
 
@@ -39,15 +26,12 @@ TURQUOISE = (64, 224, 208)
 	The Grid in the pygame defination would have rows*cols number of Node Objects.
 """
 class Node:
-	def __init__(self, row, col, width, total_rows, mut):
+	def __init__(self, row, col, width, total_rows):
 		self.row = row
 		self.col = col
 		self.x = row * width   # Coordinates
 		self.y = col * width   # Coordinates
-		if (mut == 0):
-			self.color = WHITE
-		else :
-			self.color = BLACK
+		self.color = WHITE
 		self.neighbors = []
 		self.width = width
 		self.total_rows = total_rows
@@ -96,9 +80,27 @@ class Node:
 		pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.width))
 
 	"""
+		Updates the Neighbour's list by the following logic:
+			-> A neightbhbour node must not be barrier
+			-> A neighbour node can be the end node.
+
+		The neighbour is a list of touples of Node, cost of going there.
 	"""
 	def update_neighbors(self, grid):
 		self.neighbors = []
+
+		if self.row > 0 and self.col > 0 and not grid[self.row - 1][self.col -1 ].is_barrier(): # UP-LEFT
+			self.neighbors.append(grid[self.row - 1][self.col -1 ])
+
+		if self.row < self.total_rows - 1 and self.col > 0 and not grid[self.row + 1][self.col -1 ].is_barrier(): # UP-RIGHT
+			self.neighbors.append(grid[self.row + 1][self.col -1 ])
+
+		if self.row >0 and self.col < self.total_rows - 1 and not grid[self.row - 1][self.col + 1].is_barrier(): # DOWN-LEFT
+			self.neighbors.append(grid[self.row - 1][self.col + 1])
+
+		if self.row < self.total_rows - 1 and self.col < self.total_rows - 1 and not grid[self.row + 1][self.col+1].is_barrier(): # DOWN-RIGHT
+			self.neighbors.append(grid[self.row + 1][self.col+1])
+
 		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN
 			self.neighbors.append(grid[self.row + 1][self.col])
 
@@ -117,6 +119,8 @@ class Node:
 """
 	In this function, we draw the actual grid on pygame engine.
 	Each grid in Pygame gets initialized with an empty Node Object.
+
+	Outputs -> A 2-D list called grid that has its indivisdual elemnts as the Nodes.
 """
 def make_grid(rows, width):
 	grid = []
@@ -129,19 +133,8 @@ def make_grid(rows, width):
 
 	return grid
 
-def make_grid(rows, width, img):
-	grid = []
-	gap = width // rows
-	for i in range(rows):
-		grid.append([])
-		for j in range(rows):
-			node = Node(i, j, gap, rows)
-			grid[i].append(node)
-
-	return grid
-
-
 """
+	Draws the grid lines.
 """
 def draw_grid(win, rows, width):
 	gap = width // rows
@@ -150,6 +143,8 @@ def draw_grid(win, rows, width):
 		for j in range(rows):
 			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
 """
+	This function draws a grid box for every node.
+	The draw function inside the class draws only for individual nodes.
 """
 def draw(win, grid, rows, width):
 	win.fill(WHITE)
