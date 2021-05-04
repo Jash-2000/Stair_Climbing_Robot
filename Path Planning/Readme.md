@@ -6,7 +6,6 @@ The current version runs in diagonally aswell, assuming that the cost of moving 
 **cost times sqrt(2)** ( in accordance to the pythagoras theorem). I have used the **Eucledian distance for the heuristic.**
 
 This project implements Astar algorithm for a GLobal search as well as dynamic search case wherein a robot maps and finds the optimal path simultaneously. 
-
 	* The first type of case is useful in outdoor mapping, where the robot has the entire map beforehand ( using Global Positioning Sensors).
 	* The second type of problem is quite essential in real world scenario of indoor mapping or any case where we do not know the global attributes ( like in case of navigation of MARS Rover).
 
