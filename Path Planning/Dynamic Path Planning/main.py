@@ -1,5 +1,5 @@
-print("\n This is the A-star Visualization. Once you choose the input image for the map, the map will render into a grid fromat. To see it again into the original format, press the 's' key \n")
-input("Press any key to continue to choose your image")
+print("\n This is the A-star Visualization. Once you choose the input image for the map, the map will render into a grid fromat. To see it again into the original format, press the 's' key")
+input("You can then add the trees but you wont be able to alter the system boundaries. \nPress any key to continue to choose your image")
 
 from map import *
 from draw import *
@@ -27,8 +27,10 @@ def main(win, width):
 	
 		for numr,r in enumerate(Map):
 			for numc,c in enumerate(r):
-				if ( Map[numr][numc] == '@' or Map[numr][numc] == 'T'):
+				if( Map[numr][numc] == '@'):
 					grid[numc][numr].make_barrier() 
+				if(Map[numr][numc] == 'T'):
+					grid[numc][numr].make_tree()
 	else:
 		ROWS = int(input("\n Enter the number of rows you want in the blank map. : "))
 		grid = make_grid(ROWS, width)
@@ -58,7 +60,7 @@ def main(win, width):
 					end.make_end()
 
 				elif spot != end and spot != start:
-					spot.make_barrier()
+					spot.make_tree()
 
 			elif pygame.mouse.get_pressed()[2]: # RIGHT
 				pos = pygame.mouse.get_pos()

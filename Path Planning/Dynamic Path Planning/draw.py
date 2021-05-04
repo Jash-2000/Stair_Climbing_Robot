@@ -11,9 +11,7 @@ WIN = pygame.display.set_mode((WIDTH, WIDTH))
 pygame.display.set_caption("A* Path Finding Algorithm")
 
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 255, 0)
-YELLOW = (255, 255, 0)
+OLIVE = (128, 128, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 PURPLE = (128, 0, 128)
@@ -35,18 +33,22 @@ class Node:
 		self.neighbors = []
 		self.width = width
 		self.total_rows = total_rows
+		self.status = 1			# { 1-> Closed, 2-> Open}
 
 	def get_pos(self):
 		return self.row, self.col
 
 	def is_closed(self):
-		return self.color == RED
+		return self.status == 1
 
 	def is_open(self):
-		return self.color == GREEN
+		return self.status == 2
 
 	def is_barrier(self):
 		return self.color == BLACK
+
+	def is_tree(self):
+		return self.color == OLIVE
 
 	def is_start(self):
 		return self.color == ORANGE
@@ -61,13 +63,18 @@ class Node:
 		self.color = ORANGE
 
 	def make_closed(self):
-		self.color = RED
+		self.color = WHITE
+		self.status = 1
 
 	def make_open(self):
-		self.color = GREEN
+		self.color = RED
+		self.status = 2
 
 	def make_barrier(self):
 		self.color = BLACK
+
+	def make_tree(self):
+		self.color = OLIVE
 
 	def make_end(self):
 		self.color = TURQUOISE
@@ -89,28 +96,28 @@ class Node:
 	def update_neighbors(self, grid):
 		self.neighbors = []
 
-		if self.row > 0 and self.col > 0 and not grid[self.row - 1][self.col -1 ].is_barrier(): # UP-LEFT
+		if( (self.row > 0) and (self.col > 0) and (not(grid[self.row - 1][self.col -1 ].is_barrier())) and (not(grid[self.row - 1][self.col -1 ].is_tree())) ): # UP-LEFT
 			self.neighbors.append(grid[self.row - 1][self.col -1 ])
 
-		if self.row < self.total_rows - 1 and self.col > 0 and not grid[self.row + 1][self.col -1 ].is_barrier(): # UP-RIGHT
+		if( (self.row < self.total_rows - 1) and (self.col > 0) and (not(grid[self.row + 1][self.col -1 ].is_barrier())) and (not(grid[self.row + 1][self.col -1 ].is_tree())) ): # UP-RIGHT
 			self.neighbors.append(grid[self.row + 1][self.col -1 ])
 
-		if self.row >0 and self.col < self.total_rows - 1 and not grid[self.row - 1][self.col + 1].is_barrier(): # DOWN-LEFT
+		if( (self.row >0) and (self.col < self.total_rows - 1) and (not(grid[self.row - 1][self.col + 1].is_barrier())) and (not(grid[self.row - 1][self.col + 1].is_tree())) ): # DOWN-LEFT
 			self.neighbors.append(grid[self.row - 1][self.col + 1])
 
-		if self.row < self.total_rows - 1 and self.col < self.total_rows - 1 and not grid[self.row + 1][self.col+1].is_barrier(): # DOWN-RIGHT
+		if( (self.row < self.total_rows - 1) and (self.col < self.total_rows - 1) and (not(grid[self.row + 1][self.col+1].is_barrier())) and(not(grid[self.row + 1][self.col+1].is_tree())) ): # DOWN-RIGHT
 			self.neighbors.append(grid[self.row + 1][self.col+1])
 
-		if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier(): # DOWN
+		if( (self.row < self.total_rows - 1) and (not(grid[self.row + 1][self.col].is_barrier())) and (not(grid[self.row + 1][self.col].is_tree())) ): # DOWN
 			self.neighbors.append(grid[self.row + 1][self.col])
 
-		if self.row > 0 and not grid[self.row - 1][self.col].is_barrier(): # UP
+		if( (self.row > 0) and (not (grid[self.row - 1][self.col].is_tree())) and (not (grid[self.row - 1][self.col].is_barrier())) ): # UP
 			self.neighbors.append(grid[self.row - 1][self.col])
 
-		if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier(): # RIGHT
+		if( (self.col < self.total_rows - 1) and (not (grid[self.row][self.col + 1].is_tree())) and (not (grid[self.row][self.col + 1].is_barrier())) ): # RIGHT
 			self.neighbors.append(grid[self.row][self.col + 1])
 
-		if self.col > 0 and not grid[self.row][self.col - 1].is_barrier(): # LEFT
+		if( (self.col > 0) and (not (grid[self.row][self.col - 1].is_tree())) and (not (grid[self.row][self.col - 1].is_barrier())) ): # LEFT
 			self.neighbors.append(grid[self.row][self.col - 1])
 
 	def __lt__(self, other):
