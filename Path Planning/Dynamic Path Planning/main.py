@@ -1,3 +1,7 @@
+print("\n This is the A-star Visualization. Once you choose the input image for the map, the map will render into a grid fromat. To see it again into the original format, press the 's' key \n")
+input("Press any key to continue to choose your image")
+
+from map import *
 from draw import *
 from astar import *
 
@@ -16,8 +20,19 @@ def get_clicked_pos(pos, rows, width):
 
 def main(win, width):
 	
-	ROWS = 50			# Can be changed by the user in case not using the image.
-	grid = make_grid(ROWS, width)
+	if (flag == 0):
+		Map, pad = getDetails()
+		ROWS = pad			
+		grid = make_grid(ROWS, width)
+	
+		for numr,r in enumerate(Map):
+			for numc,c in enumerate(r):
+				if ( Map[numr][numc] == '@' or Map[numr][numc] == 'T'):
+					grid[numc][numr].make_barrier() 
+	else:
+		ROWS = int(input("\n Enter the number of rows you want in the blank map. : "))
+		grid = make_grid(ROWS, width)
+			
 	start = None
 	end = None
 
@@ -70,6 +85,8 @@ def main(win, width):
 					end = None
 					grid = make_grid(ROWS, width)
 
+				if event.key == pygame.K_s:
+					showImg()
 	pygame.quit()
 
 main(WIN, WIDTH)
