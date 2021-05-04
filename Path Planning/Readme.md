@@ -10,7 +10,9 @@ This project implements Astar algorithm for a GLobal search as well as dynamic s
 	* The second type of problem is quite essential in real world scenario of indoor mapping or any case where we do not know the global attributes ( like in case of navigation of MARS Rover).
 
 ```
-A* (pronounced "A-star") is a graph traversal and path search algorithm, which is often used in many fields of computer science due to its completeness, optimality, and optimal efficiency. AStar, being an informed search algorithm, is the best solution in many cases. Astar is simple an optimized fusion on Djikstra and Greedy Search Algorithms.
+A* (pronounced "A-star") is a graph traversal and path search algorithm, which is often used in many fields of computer science due to 
+its completeness, optimality, and optimal efficiency. AStar, being an informed search algorithm, is the best solution in many cases. 
+Astar is simple an optimized fusion on Djikstra and Greedy Search Algorithms.
 ```
 
 This readme file contains the basic explaination of the code and also description of each file present in the repository. 
