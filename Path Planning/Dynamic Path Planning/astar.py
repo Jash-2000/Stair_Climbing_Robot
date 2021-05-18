@@ -77,4 +77,4 @@ def algorithm(draw, grid, start, end):
 		if current != start:
 			current.make_closed()
 
-	return False
+	del open_set

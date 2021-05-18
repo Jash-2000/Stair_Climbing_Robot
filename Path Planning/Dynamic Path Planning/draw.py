@@ -34,7 +34,8 @@ class Node:
 		self.width = width
 		self.total_rows = total_rows
 		self.status = 1			# { 1-> Closed, 2-> Open}
-
+		self.ngh_update = 0
+		
 	def get_pos(self):
 		return self.row, self.col
 
@@ -94,6 +95,7 @@ class Node:
 		The neighbour is a list of touples of Node, cost of going there.
 	"""
 	def update_neighbors(self, grid):
+		# If there exist different set of neighbours, delete them.
 		self.neighbors = []
 
 		if( (self.row > 0) and (self.col > 0) and (not(grid[self.row - 1][self.col -1 ].is_barrier())) and (not(grid[self.row - 1][self.col -1 ].is_tree())) ): # UP-LEFT
@@ -118,6 +120,35 @@ class Node:
 			self.neighbors.append(grid[self.row][self.col + 1])
 
 		if( (self.col > 0) and (not (grid[self.row][self.col - 1].is_tree())) and (not (grid[self.row][self.col - 1].is_barrier())) ): # LEFT
+			self.neighbors.append(grid[self.row][self.col - 1])
+
+		self.ngh_update = 1		# This parameter ensures that the robot remebers the neighbours it has seen
+
+	# This function is important when the robot doesnot know about any barrier
+	def all_neighbors(self, grid):
+		self.neighbors = []		
+		if( (self.row > 0) and (self.col > 0) ): # UP-LEFT
+			self.neighbors.append(grid[self.row - 1][self.col -1 ])
+
+		if( (self.row < self.total_rows - 1) and (self.col > 0) ): # UP-RIGHT
+			self.neighbors.append(grid[self.row + 1][self.col -1 ])
+
+		if( (self.row >0) and (self.col < self.total_rows - 1) ): # DOWN-LEFT
+			self.neighbors.append(grid[self.row - 1][self.col + 1])
+
+		if( (self.row < self.total_rows - 1) and (self.col < self.total_rows - 1) ): # DOWN-RIGHT
+			self.neighbors.append(grid[self.row + 1][self.col+1])
+
+		if( (self.row < self.total_rows - 1) ): # DOWN
+			self.neighbors.append(grid[self.row + 1][self.col])
+
+		if( (self.row > 0) ): # UP
+			self.neighbors.append(grid[self.row - 1][self.col])
+
+		if( (self.col < self.total_rows - 1) ): # RIGHT
+			self.neighbors.append(grid[self.row][self.col + 1])
+
+		if( (self.col > 0) ): # LEFT
 			self.neighbors.append(grid[self.row][self.col - 1])
 
 	def __lt__(self, other):
