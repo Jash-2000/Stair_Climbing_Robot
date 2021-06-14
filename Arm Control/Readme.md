@@ -68,3 +68,10 @@ Please find the following files/folders along with this file:
     ```
       Images showing Xerr with time
     ```
+
+---
+
+## Output GIF
+
+
+For V-REP installation guide, visit its [official page.](http://hades.mech.northwestern.edu/index.php/Getting_Started_with_the_CoppeliaSim_Simulator)
