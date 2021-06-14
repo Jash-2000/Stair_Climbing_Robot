@@ -73,5 +73,6 @@ Please find the following files/folders along with this file:
 
 ## Output GIF
 
+![vlc-record-2021-06-15-04h02m21s-animation mp4-](https://user-images.githubusercontent.com/47540320/121967831-b1fb0400-cd8e-11eb-821b-ce423cb9e27d.gif)
 
 For V-REP installation guide, visit its [official page.](http://hades.mech.northwestern.edu/index.php/Getting_Started_with_the_CoppeliaSim_Simulator)
